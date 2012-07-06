@@ -18,7 +18,7 @@ end
 @gem_name = File.basename(@gem_folder)
 @backup_folder = File.join(File.dirname(__FILE__), "#{@gem_name}-old")
 # DUPE
-FileUtils.cp_r(@gem_folder, @backup_folder)
+# FileUtils.cp_r(@gem_folder, @backup_folder)
 
 
 @lib_folder = File.join([@gem_folder, "lib"])
@@ -32,32 +32,41 @@ def parse_gem(init_lib)
   puts "Processing: #{init_lib}"
   @init_file = File.read(init_lib)
   t_file = Tempfile.new("#{File.basename(init_lib)}.bak")
-  puts "Tempfile: #{t_file.to_s}"
+  #puts "Tempfile: #{t_file.path}"
 
   @init_file.each_line do |line|
-      if line =~ /^require/
+    if line.strip =~ /^require/
 
-        parser = RubyParser.new
-        sexp = parser.parse(line)
-        library = sexp[3][1][1]
+      parser = RubyParser.new
+      sexp = parser.parse(line)
+
+      library = sexp[3][1][1]
 
 
+      begin
         if library.match(@gem_name)
           # fold in
           @require_libs << library
           full_rb_path = File.join([@lib_folder, "#{library}.rb"])
           parse_gem(full_rb_path)
         end
-
-        # comment it out
-        t_file.puts "# #{line}"
-
-      else
-
-        # dont intefere
+      rescue
+        # this isn't a normal require
+        # they did something like
+        # require var
+        t_file.puts "# FIXME: #require is not supported in RubyMotion"
         t_file.puts line
-
+        next
       end
+
+      # comment it out
+      t_file.puts "# #{line}"
+
+      next
+    end
+
+    # dont intefere
+    t_file.puts line
 
   end
 
