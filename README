@@ -1,0 +1,8 @@
+WELCOME TO HOKKAIDO
+===
+
+Hokkaido, by jsilver
+
+Hokkaido attempts to do as much of the work of porting a RubyGem to iOS for you
+
+Usage: hokkaido <require_path>
