@@ -5,6 +5,17 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
+# Welcome To The Island of Hokkaido!
+
+RUBYMOTION_GEM_CONFIG = <<-HEREDOC
+Motion::Project::App.setup do |app|
+MAIN_CONFIG_FILES
+end
+HEREDOC
+
+INCLUDE_STRING = "app.files << File.expand_path(File.dirname(__FILE__) + 'RELATIVE_LIBRARY_PATH')"
+
+
 if ARGV.length == 0
   puts "Hokkaido Tool"
   puts "turn ordinary gems into RubyMotion gems"
@@ -29,7 +40,7 @@ end
 
 
 def parse_gem(init_lib)
-  puts "Processing: #{init_lib}"
+  #puts "Processing: #{init_lib}"
   @init_file = File.read(init_lib)
   t_file = Tempfile.new("#{File.basename(init_lib)}.bak")
   #puts "Tempfile: #{t_file.path}"
@@ -46,7 +57,7 @@ def parse_gem(init_lib)
       begin
         if library.match(@gem_name)
           # fold in
-          @require_libs << library
+          @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
           full_rb_path = File.join([@lib_folder, "#{library}.rb"])
           parse_gem(full_rb_path)
         end
@@ -78,3 +89,10 @@ def parse_gem(init_lib)
 end
 
 parse_gem(@init_lib)
+
+
+# quick strip
+@manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.join("\n"))
+
+
+puts @manifest
