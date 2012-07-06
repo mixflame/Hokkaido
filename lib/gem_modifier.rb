@@ -19,7 +19,9 @@ module Hokkaido
 
     def parse_gem(init_lib)
       puts "Processing: #{init_lib}"
-      @require_libs_hash[init_lib] = []
+      init_path = init_lib #File.join([@lib_folder, init_lib])
+      # puts init_path
+      @require_libs_hash[init_path] = []
       init_file = File.read(init_lib)
       current_file = ""
 
@@ -45,7 +47,7 @@ module Hokkaido
 
             unless @require_libs.include?(library)
               @require_libs << library
-              @require_libs_hash[init_lib] << library #appfiles
+              @require_libs_hash[init_path] << library #appfiles
               full_rb_path = File.join([@lib_folder, "#{library}.rb"])
               parse_gem(full_rb_path)
             end
@@ -76,15 +78,21 @@ module Hokkaido
       @require_libs = []
 
       correct_load_order_array.each do |lib|
+        #puts lib
+        if !lib.match(/\.rb/)
+          lib += ".rb"
+        end
         @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{lib}")
       end
+
+      # p @require_libs
 
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
 
-      # puts @manifest
+      puts @manifest
 
-      File.open(@init_lib, 'a') {|f| f.puts(@manifest) }
+      # File.open(@init_lib, 'a') {|f| f.puts(@manifest) }
 
     end
   end
