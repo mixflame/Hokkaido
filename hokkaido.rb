@@ -6,6 +6,7 @@ require 'bundler'
 Bundler.require
 
 # Hokkaido
+puts 'Hokkaido 1.0 codename "Northern Sea Circuit"'
 
 RUBYMOTION_GEM_CONFIG = <<-HEREDOC
 Motion::Project::App.setup do |app|
@@ -20,13 +21,20 @@ if ARGV.length == 0
   puts "Hokkaido"
   puts "turn ordinary gems into RubyMotion gems"
   puts "processes: require remover, eval define injecter"
-  puts "usage: hokkaido cucumber/lib/cucumber.rb"
+  puts "usage: hokkaido <gem_name> <init_file> <lib_folder>"
+  puts "e.g.: ./hokkaido.rb term term/lib/term/ansicolor.rb term/lib"
   exit
 end
 
-@init_lib = ARGV[0]
-@gem_name = @init_lib.split("/")[0]
-@lib_folder = File.dirname(@init_lib)
+@gem_name = ARGV[0]
+@init_lib = ARGV[1]
+@lib_folder = ARGV[2]
+
+# @gem_name = @init_lib.split("/")[0]
+# @lib_folder = File.dirname(@init_lib)
+puts "Init Lib: #{@init_lib}"
+puts "Gem name: #{@gem_name}"
+puts "Lib folder: #{@lib_folder}"
 
 @require_libs = []
 
@@ -40,13 +48,26 @@ def parse_gem(init_lib)
     if line.strip =~ /^require/
       parser = RubyParser.new
       sexp = parser.parse(line)
+      call = sexp[2]
+      
+
+      unless call == :require
+        # WEIRD SHIT IS HAPPENING
+        current_file += line
+        next
+      end
+
       require_type = sexp[3][1][0]
       library = sexp[3][1][1]
+      
       if require_type == :str && library.match(@gem_name)
         # fold in
-        @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
-        full_rb_path = File.join([@lib_folder, "#{library}.rb"])
-        parse_gem(full_rb_path)
+        appfiles = INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
+        unless @require_libs.include?(appfiles)
+          @require_libs << appfiles
+          full_rb_path = File.join([@lib_folder, "#{library}.rb"])
+          parse_gem(full_rb_path)
+        end
       else
         current_file += "# FIXME: #require is not supported in RubyMotion\n"
         current_file += "# #{line}"
