@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'Hokkaido'
+  puts 'Hokkaido 1.0 codename "Northern Sea Circuit"'
+
+  if ARGV.length == 0
+    puts "Hokkaido"
+    puts "turn ordinary gems into RubyMotion gems"
+    puts "processes: require remover, eval define injecter"
+    puts "usage: hokkaido <gem_name> <init_file> <lib_folder>"
+    puts "e.g.: ./hokkaido.rb term term/lib/term/ansicolor.rb term/lib"
+    exit
+  end
+
+  puts "Init Lib: #{ARGV[1]}"
+  puts "Gem name: #{ARGV[0]}"
+  puts "Lib folder: #{ARGV[2]}"
+  
+  Hokkaido.port_gem(ARGV)
