@@ -25,13 +25,13 @@ Or install it yourself as:
 
 ## Usage
 
-`hokkaido <gem_name> <init_file> <lib_folder>`
+`[bundle exec] Hokkaido <gem_name> <init_file> <lib_folder>`
 
 ## Examples
 
-`./hokkaido.rb term term/lib/term/ansicolor.rb term/lib`
-`./hokkaido.rb cucumber cucumber/lib/cucumber.rb cucumber/lib`
-`./hokkaido.rb gherkin gherkin/lib/gherkin.rb gherkin/lib`
+Hokkaido term term/lib/term/ansicolor.rb term/lib
+Hokkaido cucumber cucumber/lib/cucumber.rb cucumber/lib
+Hokkaido gherkin gherkin/lib/gherkin.rb gherkin/lib
 
 ## Contributing
 
