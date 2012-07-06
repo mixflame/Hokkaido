@@ -3,7 +3,13 @@ WELCOME TO HOKKAIDO
 
 Hokkaido, by jsilver
 
-Hokkaido attempts to do as much of the work of porting a RubyGem to iOS for you
+Hokkaido attempts to do as much of the work of porting a Gem to RubyMotion for you as possible
+
+Currently, it only supports one patching operation.
+
+Refold Requires into Project Manifest.
+
+Where impossible or strange, A FIXME is produced.
 
 Usage: hokkaido <gem_name> <init_file> <lib_folder>
 
