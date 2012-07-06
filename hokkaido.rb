@@ -9,7 +9,7 @@ Bundler.require
 
 RUBYMOTION_GEM_CONFIG = <<-HEREDOC
 Motion::Project::App.setup do |app|
-MAIN_CONFIG_FILES
+  MAIN_CONFIG_FILES
 end
 HEREDOC
 
@@ -32,58 +32,50 @@ end
 
 
 def parse_gem(init_lib)
-  #puts "Processing: #{init_lib}"
+  puts "Processing: #{init_lib}"
   init_file = File.read(init_lib)
-  @t_file = Tempfile.new(File.basename(init_lib))
-  # puts "Tempfile: #{@t_file.path}"
+  #t_file = Tempfile.new(File.basename(init_lib))
+  current_file = ""
 
   init_file.each_line do |line|
     if line.strip =~ /^require/
 
       parser = RubyParser.new
       sexp = parser.parse(line)
-
+      require_type = sexp[3][1][0]
       library = sexp[3][1][1]
 
-
-      begin
-        if library.match(@gem_name)
-          # fold in
-          @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
-          full_rb_path = File.join([@lib_folder, "/#{library}.rb"])
-          parse_gem(full_rb_path)
-        end
-      rescue
-        # not require "thing"
-        @t_file.puts "# FIXME: #require is not supported in RubyMotion"
-        @t_file.puts line
+      if require_type == :str && library.match(@gem_name)
+        # fold in
+        @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
+        full_rb_path = File.join([@lib_folder, "#{library}.rb"])
+        parse_gem(full_rb_path)
+      else
+        #t_file.
+        current_file += "# FIXME: #require is not supported in RubyMotion\n"
+        #t_file.
+        current_file += line
         next
       end
 
-      # comment it out
-      @t_file.puts "# #{line}"
-
+      #   # comment it out
+      #t_file.
+      current_file += "# #{line}"
       next
     end
 
     # dont intefere
-    @t_file.puts line
+    #t_file.
+    current_file += line
 
   end
 
   # replace file
-  FileUtils.mv(t_file.path, init_lib)
-  # puts @t_file.size
-
-  # @t_file.each_line do |l|
-  #   puts l
-  # end
-
-  #p require_libs
+  #FileUtils.mv(t_file.path, init_lib)
+  # puts current_file == ""
+  File.open(init_lib, 'w') {|f| f.write(current_file) }
 
 end
-
-parse_gem(@init_lib)
 
 def write_manifest
 
@@ -93,5 +85,7 @@ def write_manifest
   File.open(@init_lib, 'a') {|f| f.puts(@manifest) }
 
 end
+
+parse_gem(@init_lib)
 
 write_manifest
