@@ -1,4 +1,8 @@
 require "Hokkaido/version"
+require 'ruby_parser'
+require 'fileutils'
+require 'tempfile'
+
 
 module Hokkaido
   RUBYMOTION_GEM_CONFIG = <<-HEREDOC
