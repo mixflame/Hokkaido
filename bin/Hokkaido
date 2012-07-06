@@ -16,4 +16,6 @@ require 'Hokkaido'
   puts "Gem name: #{ARGV[0]}"
   puts "Lib folder: #{ARGV[2]}"
   
-  Hokkaido.port_gem(ARGV)
+  port = Hokkaido::Port.new(ARGV)
+
+  puts "The #require removal was #{port.success? ? 'a' : 'not a'} success."
