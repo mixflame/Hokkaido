@@ -34,40 +34,31 @@ end
 def parse_gem(init_lib)
   puts "Processing: #{init_lib}"
   init_file = File.read(init_lib)
-  #t_file = Tempfile.new(File.basename(init_lib))
   current_file = ""
 
   init_file.each_line do |line|
     if line.strip =~ /^require/
-
       parser = RubyParser.new
       sexp = parser.parse(line)
       require_type = sexp[3][1][0]
       library = sexp[3][1][1]
-
       if require_type == :str && library.match(@gem_name)
         # fold in
         @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
         full_rb_path = File.join([@lib_folder, "#{library}.rb"])
         parse_gem(full_rb_path)
       else
-        #t_file.
         current_file += "# FIXME: #require is not supported in RubyMotion\n"
-        #t_file.
-        current_file += line
+        current_file += "# #{line}"
         next
       end
-
-      #   # comment it out
-      #t_file.
+      # comment it out
       current_file += "# #{line}"
       next
     end
 
     # dont intefere
-    #t_file.
     current_file += line
-
   end
 
   # replace file
