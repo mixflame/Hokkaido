@@ -71,8 +71,6 @@ def parse_gem(init_lib)
   end
 
   # replace file
-  #FileUtils.mv(t_file.path, init_lib)
-  # puts current_file == ""
   File.open(init_lib, 'w') {|f| f.write(current_file) }
 
 end
