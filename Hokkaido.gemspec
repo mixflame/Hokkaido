@@ -2,8 +2,8 @@
 require File.expand_path('../lib/Hokkaido/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Jonathan Silverman"]
-  gem.email         = ["jsilver@mdks.org"]
+  gem.authors       = ["Jonathan Silverman", "Keyvan Fatehi"]
+  gem.email         = ["jsilver@mdks.org", "keyvan@mdks.org"]
   gem.description   = %q{Automates as much as possible in assistance with porting of gems to RubyMotion}
   gem.summary       = %q{TODO: Write a gem summary}
   gem.homepage      = "https://github.com/jsilverMDX/Hokkaido"
