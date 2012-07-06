@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem 'ruby_parser'
-gem 'pry'
+# Specify your gem's dependencies in Hokkaido.gemspec
+gemspec
