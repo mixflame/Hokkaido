@@ -2,11 +2,11 @@
 require File.expand_path('../lib/Hokkaido/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Keyvan"]
-  gem.email         = ["keyvan@keyvanfatehi.com"]
-  gem.description   = %q{TODO: Write a gem description}
+  gem.authors       = ["Jonathan Silverman"]
+  gem.email         = ["jsilver@mdks.org"]
+  gem.description   = %q{Automates as much as possible in assistance with porting of gems to RubyMotion}
   gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/jsilverMDX/Hokkaido"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
