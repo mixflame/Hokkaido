@@ -5,36 +5,44 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
+# Welcome To The Island of Hokkaido!
+
+RUBYMOTION_GEM_CONFIG = <<-HEREDOC
+Motion::Project::App.setup do |app|
+MAIN_CONFIG_FILES
+end
+HEREDOC
+
+INCLUDE_STRING = "app.files << File.expand_path(File.dirname(__FILE__) + 'RELATIVE_LIBRARY_PATH')"
+
+
 if ARGV.length == 0
   puts "Hokkaido Tool"
   puts "turn ordinary gems into RubyMotion gems"
   puts "processes: require remover, eval define injecter"
-  puts "usage: hokkaido cucumber/"
+  puts "usage: hokkaido cucumber/lib/cucumber.rb"
   exit
 end
 
-# edit original gem... tho we backup for safety reasons and testing
-@gem_folder = File.join(File.dirname(__FILE__), ARGV[0])
-@gem_name = File.basename(@gem_folder)
-@backup_folder = File.join(File.dirname(__FILE__), "#{@gem_name}-old")
+@init_lib = ARGV[0]
+@gem_name = @init_lib.split("/")[0]
+@lib_folder = File.dirname(@init_lib)
+
+# @backup_folder = File.join(File.dirname(__FILE__), "#{@gem_name}-old")
 # DUPE
 # FileUtils.cp_r(@gem_folder, @backup_folder)
-
-
-@lib_folder = File.join([@gem_folder, "lib"])
-@init_lib = File.join([@lib_folder, "#{@gem_name}.rb"])
 
 
 @require_libs = []
 
 
 def parse_gem(init_lib)
-  puts "Processing: #{init_lib}"
-  @init_file = File.read(init_lib)
-  t_file = Tempfile.new("#{File.basename(init_lib)}.bak")
-  #puts "Tempfile: #{t_file.path}"
+  #puts "Processing: #{init_lib}"
+  init_file = File.read(init_lib)
+  @t_file = Tempfile.new(File.basename(init_lib))
+  puts "Tempfile: #{@t_file.path}"
 
-  @init_file.each_line do |line|
+  init_file.each_line do |line|
     if line.strip =~ /^require/
 
       parser = RubyParser.new
@@ -46,35 +54,49 @@ def parse_gem(init_lib)
       begin
         if library.match(@gem_name)
           # fold in
-          @require_libs << library
-          full_rb_path = File.join([@lib_folder, "#{library}.rb"])
+          @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
+          full_rb_path = File.join([@lib_folder, "/#{library}.rb"])
           parse_gem(full_rb_path)
         end
       rescue
-        # this isn't a normal require
-        # they did something like
-        # require var
-        t_file.puts "# FIXME: #require is not supported in RubyMotion"
-        t_file.puts line
+        # not require "thing"
+        @t_file.puts "# FIXME: #require is not supported in RubyMotion"
+        @t_file.puts line
         next
       end
 
       # comment it out
-      t_file.puts "# #{line}"
+      @t_file.puts "# #{line}"
 
       next
     end
 
     # dont intefere
-    t_file.puts line
+    @t_file.puts line
 
   end
 
   # replace file
   FileUtils.mv(t_file.path, init_lib)
+  # puts @t_file.size
+
+  # @t_file.each_line do |l|
+  #   puts l
+  # end
 
   #p require_libs
 
 end
 
 parse_gem(@init_lib)
+
+def write_manifest
+
+  # creates config manifest
+  @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
+
+  File.open(@init_lib, 'a') {|f| f.puts(@manifest) }
+
+end
+
+write_manifest
