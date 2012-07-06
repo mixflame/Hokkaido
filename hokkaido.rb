@@ -5,7 +5,7 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
-# Welcome To The Island of Hokkaido!
+# Hokkaido
 
 RUBYMOTION_GEM_CONFIG = <<-HEREDOC
 Motion::Project::App.setup do |app|
@@ -17,7 +17,7 @@ INCLUDE_STRING = "app.files << File.expand_path(File.dirname(__FILE__) + 'RELATI
 
 
 if ARGV.length == 0
-  puts "Hokkaido Tool"
+  puts "Hokkaido"
   puts "turn ordinary gems into RubyMotion gems"
   puts "processes: require remover, eval define injecter"
   puts "usage: hokkaido cucumber/lib/cucumber.rb"
@@ -28,11 +28,6 @@ end
 @gem_name = @init_lib.split("/")[0]
 @lib_folder = File.dirname(@init_lib)
 
-# @backup_folder = File.join(File.dirname(__FILE__), "#{@gem_name}-old")
-# DUPE
-# FileUtils.cp_r(@gem_folder, @backup_folder)
-
-
 @require_libs = []
 
 
@@ -40,7 +35,7 @@ def parse_gem(init_lib)
   #puts "Processing: #{init_lib}"
   init_file = File.read(init_lib)
   @t_file = Tempfile.new(File.basename(init_lib))
-  puts "Tempfile: #{@t_file.path}"
+  # puts "Tempfile: #{@t_file.path}"
 
   init_file.each_line do |line|
     if line.strip =~ /^require/
