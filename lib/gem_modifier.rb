@@ -39,7 +39,7 @@ module Hokkaido
 
           if require_type == :str && library.match(@gem_name)
             # fold in
-            appfiles = INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
+            appfiles = "  "+INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
             unless @require_libs.include?(appfiles)
               @require_libs << appfiles
               full_rb_path = File.join([@lib_folder, "#{library}.rb"])
