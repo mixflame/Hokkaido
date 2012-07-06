@@ -5,4 +5,10 @@ Hokkaido, by jsilver
 
 Hokkaido attempts to do as much of the work of porting a RubyGem to iOS for you
 
-Usage: hokkaido <require_path>
+Usage: hokkaido <gem_name> <init_file> <lib_folder>
+
+Examples:
+
+./hokkaido.rb term term/lib/term/ansicolor.rb term/lib
+./hokkaido.rb cucumber cucumber/lib/cucumber.rb cucumber/lib
+./hokkaido.rb gherkin gherkin/lib/gherkin.rb gherkin/lib
