@@ -21,3 +21,16 @@ command :port do |c|
     end
   end
 end
+
+command :test do |c|
+  c.syntax = "Usage: Hokkaido test <init_file>"
+  c.description = 'Attempts to test the gem with a mocked RubyMotion.'
+  c.action do |args, options|
+    if args[0] && File.exists?(args[0])
+      Hokkaido::Port.test(args[0])
+    else
+      say "File not found."
+    end
+  end
+end
+
