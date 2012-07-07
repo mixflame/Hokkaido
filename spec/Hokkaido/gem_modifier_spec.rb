@@ -5,7 +5,7 @@ describe Hokkaido::GemModifier do
     info = ["cucumber", "cucumber/lib/cucumber.rb", "cucumber/lib"]
     modifier = Hokkaido::GemModifier.new(info)
     modifier.gem_name.should == "cucumber"
-    modifier.init_lib.should == "cucumber/lib/cucumber.rb"
+    modifier.init_lib.should == "./cucumber/lib/cucumber.rb"
     modifier.lib_folder.should == "cucumber/lib"
   end
 

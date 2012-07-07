@@ -2,6 +2,10 @@ require 'ruby_parser'
 require 'fileutils'
 require 'tempfile'
 
+# require removal only
+
+
+
 module Hokkaido
   class GemModifier
     attr_reader :gem_name, :init_lib, :lib_folder
@@ -12,9 +16,9 @@ module Hokkaido
       @require_libs = []
     end
 
-    def manifest!
+    def remove_requires!
       parse_gem(@init_lib)
-      write_manifest
+      #write_manifest
     end
 
     def parse_gem(init_lib)
@@ -88,10 +92,11 @@ module Hokkaido
       # end
 
       # creates config manifest
-      @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
+      #@manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
 
-      File.open(@init_lib, 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
+      #File.open(@init_lib, 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
 
     end
+
   end
 end
