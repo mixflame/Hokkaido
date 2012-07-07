@@ -1,11 +1,12 @@
 # Hokkaido
-by jsilver
 
 Hokkaido attempts to do as much of the work of porting a Gem to RubyMotion for you as possible
 
 Currently, it only supports one patching operation.
 
 * Refold `Requires` into RubyMotion Project Manifest.
+
+## WARNING: Hokkaido is a work in progress and will fail self-test due to incorrect load order. see recursive method parse_gem in gem_modifier.rb
 
 Where impossible or strange, A `FIXME` is produced.
 
