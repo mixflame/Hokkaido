@@ -65,7 +65,7 @@ module Hokkaido
       end
 
       # replace file
-      File.open(init_lib, 'w') {|f| f.write(current_file) }
+      #File.open(init_lib, 'w') {|f| f.write(current_file) }
 
     end
 
@@ -89,7 +89,7 @@ module Hokkaido
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
 
-      File.open(@init_lib, 'a') {|f| f.puts(@manifest) }
+      #File.open(@init_lib, 'a') {|f| f.puts(@manifest) }
 
     end
   end
