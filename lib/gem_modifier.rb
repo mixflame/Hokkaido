@@ -8,7 +8,7 @@ module Hokkaido
 
     def initialize(info)
       @gem_name, @init_lib, @lib_folder = info
-      @require_libs_hash = {}
+      #@require_libs_hash = {}
       @require_libs = []
     end
 
@@ -22,7 +22,7 @@ module Hokkaido
       # don't ask
       init_path = init_lib
 
-      @require_libs_hash[init_path] = []
+      #@require_libs_hash[init_path] = []
       init_file = File.read(init_lib)
       current_file = ""
 
@@ -45,8 +45,8 @@ module Hokkaido
           if require_type == :str && library.match(@gem_name)
             # fold in
             unless @require_libs.include?(library)
-              @require_libs << library
-              @require_libs_hash[init_path] << library #appfiles
+              @require_libs.insert 0, INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}")
+              #@require_libs_hash[init_path] << library #appfiles
               full_rb_path = File.join([@lib_folder, "#{library}.rb"])
               parse_gem(full_rb_path)
             end
@@ -71,20 +71,21 @@ module Hokkaido
 
     def write_manifest
 
-      correct_load_order_array = @require_libs_hash.map { |i| i.reverse.flatten }.flatten
+      #correct_load_order_array = @require_libs_hash.map { |i| i.reverse.flatten }.flatten
+      # correct_load_order_array = []
 
       # i was only used to make sure files werent required twice
-      @require_libs = []
+      #@require_libs = []
 
-      correct_load_order_array.each do |lib|
-        # usually gems dont require with .rb
-        # hash keys will have it because they are a path
-        # values wont because they are from #require
-        if !lib.match(/\.rb/)
-          lib += ".rb"
-        end
-        @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{lib}")
-      end
+      # correct_load_order_array.each do |lib|
+      #   # usually gems dont require with .rb
+      #   # hash keys will have it because they are a path
+      #   # values wont because they are from #require
+      #   if !lib.match(/\.rb/)
+      #     lib += ".rb"
+      #   end
+      #   @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{lib}")
+      # end
 
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
