@@ -17,6 +17,10 @@ module Hokkaido
       write_manifest
     end
 
+    def simulate!
+      puts "simulator not implemented..."
+    end
+
     def parse_gem(init_lib)
       puts "Processing: #{init_lib}"
       # don't ask

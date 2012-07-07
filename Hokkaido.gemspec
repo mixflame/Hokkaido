@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'pry-debugger'
   gem.add_runtime_dependency 'ruby_parser'
+  gem.add_runtime_dependency 'commander'
 end

@@ -2,20 +2,22 @@
 require 'Hokkaido'
 puts "Hokkaido v#{Hokkaido::VERSION} codename Northern Sea Circuit".colorize(:yellow)
 
-if Hokkaido.input_valid?(ARGV)
-  puts "Init Lib:".colorize(:blue)+" #{ARGV[1]}"
-  puts "Gem name:".colorize(:blue)+" #{ARGV[0]}"
-  puts "Lib folder:".colorize(:blue)+" #{ARGV[2]}"
-  port = Hokkaido::Port.new(ARGV)
-  puts "Gem modification complete. It will now be tested.".colorize(:yellow)
-  if port.success?
-    puts "The #require removal was successful.".colorize(:green)
-  else
-    puts "The #require removal has failed.".colorize(:red)
+program :name, "Hokkaido"
+program :version, '0.0.1'
+program :description, 'Gem port tool for RubyMotion'
+
+command :port do |c|
+  c.syntax = "Usage: Hokkaido port <gem_name> <init_file> <lib_dir>"
+  c.description = 'Attempts to port the gem. This will modify the files!'
+  c.option '--sim', TrueClass, 'Does not edit the gem files. Good for hacking Hokkaido'
+  c.action do |args, options|
+    if File.exists?(args[1]) && File.directory?(args[2]) && args[0].size > 1
+      puts "Init Lib:".colorize(:blue)+" #{args[1]}"
+      puts "Gem name:".colorize(:blue)+" #{args[0]}"
+      say "Lib folder:".colorize(:blue)+" #{args[2]}"
+      port = Hokkaido::Port.new(args, options)
+    else
+      say "I can't process that."
+    end
   end
-else
-  puts "Turn ordinary gems into RubyMotion gems"
-  puts "processes: require remover, eval define injecter"
-  puts "usage: [bundle exec] #{"Hokkaido".colorize(:yellow)} #{"<gem_name>".colorize(:blue)} #{"<init_file>".colorize(:blue)} #{"<lib_folder>".colorize(:blue)}"
-  puts "e.g.: [bundle exec] Hokkaido.rb term term/lib/term/ansicolor.rb term/lib"
 end
