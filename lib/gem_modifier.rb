@@ -8,16 +8,25 @@ module Hokkaido
 
     def initialize(info)
       @gem_name, @init_lib, @lib_folder = info
+      @require_libs_hash = {}
       @require_libs = []
     end
 
-    def manifest!
+    def modify!
       parse_gem(@init_lib)
       write_manifest
     end
 
+    def simulate!
+      puts "simulator not implemented..."
+    end
+
     def parse_gem(init_lib)
       puts "Processing: #{init_lib}"
+      # don't ask
+      init_path = init_lib
+
+      @require_libs_hash[init_path] = []
       init_file = File.read(init_lib)
       current_file = ""
 
@@ -26,7 +35,6 @@ module Hokkaido
           parser = RubyParser.new
           sexp = parser.parse(line)
           call = sexp[2]
-
 
           unless call == :require
             # WEIRD SHIT IS HAPPENING
@@ -39,9 +47,9 @@ module Hokkaido
 
           if require_type == :str && library.match(@gem_name)
             # fold in
-            appfiles = "  "+INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{library}.rb")
-            unless @require_libs.include?(appfiles)
-              @require_libs << appfiles
+            unless @require_libs.include?(library)
+              @require_libs << library
+              @require_libs_hash[init_path] << library #appfiles
               full_rb_path = File.join([@lib_folder, "#{library}.rb"])
               parse_gem(full_rb_path)
             end
@@ -65,6 +73,21 @@ module Hokkaido
     end
 
     def write_manifest
+
+      correct_load_order_array = @require_libs_hash.map { |i| i.reverse.flatten }.flatten
+
+      # i was only used to make sure files werent required twice
+      @require_libs = []
+
+      correct_load_order_array.each do |lib|
+        # usually gems dont require with .rb
+        # hash keys will have it because they are a path
+        # values wont because they are from #require
+        if !lib.match(/\.rb/)
+          lib += ".rb"
+        end
+        @require_libs << INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", "#{lib}")
+      end
 
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @require_libs.uniq.join("\n"))
