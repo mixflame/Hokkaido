@@ -16,18 +16,19 @@ module Hokkaido
       else
         @mod_gem.modify!
         puts "Gem modification complete. It will now be tested.".colorize(:yellow)
-        if success?
-          puts "The #require removal was successful.".colorize(:green)
-        else
-          puts "The #require removal has failed.".colorize(:red)
-        end
+        Hokkaido::Port.test(@mod_gem.init_lib)
       end
     end
 
-    def success?
+    def self.test(init_lib)
       mocklib = File.expand_path('lib/motion_mock.rb')
-      system("/usr/bin/env ruby -r #{mocklib} #{@mod_gem.init_lib}")
-      puts "Hokkaido self test has concluded."
+      retval = system("/usr/bin/env ruby -r #{mocklib} #{init_lib}")
+      if retval
+        puts "The #require removal was successful.".colorize(:green)
+      else
+        puts "The #require removal has failed.".colorize(:red)
+      end
+      return retval
     end
   end
 end
