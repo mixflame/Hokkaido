@@ -12,7 +12,7 @@ module Hokkaido
       @require_libs = []
     end
 
-    def manifest!
+    def modify!
       parse_gem(@init_lib)
       write_manifest
     end
@@ -31,7 +31,6 @@ module Hokkaido
           parser = RubyParser.new
           sexp = parser.parse(line)
           call = sexp[2]
-
 
           unless call == :require
             # WEIRD SHIT IS HAPPENING

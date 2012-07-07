@@ -13,7 +13,7 @@ module Hokkaido
   class Port
     def initialize(info)
       @mod_gem = mod_gem = GemModifier.new(info)
-      @mod_gem.manifest!
+      @mod_gem.modify!
     end
 
     def success?
