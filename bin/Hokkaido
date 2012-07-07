@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'Hokkaido'
-puts 'Hokkaido 1.0 codename "Northern Sea Circuit"'.colorize(:yellow)
+puts "Hokkaido v#{Hokkaido::VERSION} codename Northern Sea Circuit".colorize(:yellow)
 
 if Hokkaido.input_valid?(ARGV)
   puts "Init Lib:".colorize(:blue)+" #{ARGV[1]}"
@@ -14,9 +14,8 @@ if Hokkaido.input_valid?(ARGV)
     puts "The #require removal has failed.".colorize(:red)
   end
 else
-  puts "Hokkaido"
   puts "Turn ordinary gems into RubyMotion gems"
   puts "processes: require remover, eval define injecter"
-  puts "usage: hokkaido <gem_name> <init_file> <lib_folder>"
-  puts "e.g.: ./hokkaido.rb term term/lib/term/ansicolor.rb term/lib"
+  puts "usage: [bundle exec] #{"Hokkaido".colorize(:yellow)} #{"<gem_name>".colorize(:blue)} #{"<init_file>".colorize(:blue)} #{"<lib_folder>".colorize(:blue)}"
+  puts "e.g.: [bundle exec] Hokkaido.rb term term/lib/term/ansicolor.rb term/lib"
 end
