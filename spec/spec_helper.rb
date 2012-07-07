@@ -13,6 +13,8 @@ require 'Hokkaido'
 #   end
 # end
 
+TEST_MODE = true
+
 module RSpec
   module WorkInProgress
     def pending_under platforms, reason, &block
