@@ -15,14 +15,17 @@ module Hokkaido
       @require_libs = [File.join(@lib_folder, @init_lib)]
     end
 
-    def remove_requires!
+    def modify!
       parse_gem(File.join(@lib_folder, @init_lib))
-      # p @require_libs
       write_manifest
     end
 
+    # def simulate!
+    #   puts "simulator not implemented..."
+    # end
+
     def parse_gem(init_lib)
-      puts "Processing: #{init_lib}"
+      # puts "Processing: #{init_lib}"
       # don't ask
       init_path = init_lib
 
@@ -34,7 +37,6 @@ module Hokkaido
           parser = RubyParser.new
           sexp = parser.parse(line)
           call = sexp[2]
-
 
           unless call == :require
             # WEIRD SHIT IS HAPPENING
@@ -50,9 +52,6 @@ module Hokkaido
             full_rb_path = File.join([@lib_folder, "#{library}.rb"])
             unless @require_libs.include?(full_rb_path)
               file_index = @require_libs.index(init_lib)
-              # p @require_libs
-              # p init_lib
-              # p file_index
               insert_index = file_index
               @require_libs.insert insert_index, full_rb_path
               parse_gem(full_rb_path)
@@ -71,18 +70,12 @@ module Hokkaido
         current_file += line
       end
 
-      # p @require_libs
-
       # replace file
       File.open(init_lib, 'w') {|f| f.write(current_file) } #unless TEST_MODE
 
     end
 
     def write_manifest
-
-      #   if !lib.match(/\.rb/)
-      #     lib += ".rb"
-      #   end
 
       @manifest_files = @require_libs.collect do |lib|
 
@@ -95,7 +88,7 @@ module Hokkaido
 
       puts @manifest
 
-      File.open(@init_lib, 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
+      File.open(File.join(@lib_folder, @init_lib), 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
 
     end
 

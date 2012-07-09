@@ -18,5 +18,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'guard'
   gem.add_development_dependency 'guard-rspec'
+  gem.add_development_dependency 'pry-debugger'
   gem.add_runtime_dependency 'ruby_parser'
+  gem.add_runtime_dependency 'commander'
 end

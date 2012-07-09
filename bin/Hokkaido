@@ -1,21 +1,37 @@
 #!/usr/bin/env ruby
-
+require 'commander/import'
 require 'Hokkaido'
-  puts 'Hokkaido 1.0 codename "Northern Sea Circuit"'
+puts "Hokkaido v#{Hokkaido::VERSION} codename Northern Sea Circuit".colorize(:yellow)
 
-  if ARGV.length == 0
-    puts "Hokkaido"
-    puts "turn ordinary gems into RubyMotion gems"
-    puts "processes: require remover, eval define injecter"
-    puts "usage: hokkaido <gem_name> <init_file> <lib_folder>"
-    puts "e.g.: ./hokkaido.rb term term/lib/term/ansicolor.rb term/lib"
-    exit
+program :name, "Hokkaido"
+program :version, '0.0.1'
+program :description, 'Gem port tool for RubyMotion'
+
+command :port do |c|
+  c.syntax = "Usage: Hokkaido port <gem_name> <init_file> <lib_dir>"
+  c.description = 'Attempts to port the gem. This will modify the files!'
+  c.option '--sim', TrueClass, 'Does not edit the gem files. Good for hacking Hokkaido'
+  c.action do |args, options|
+    if File.exists?(args[1]) && File.directory?(args[2]) && args[0].size > 1
+      puts "Init Lib:".colorize(:blue)+" #{args[1]}"
+      puts "Gem name:".colorize(:blue)+" #{args[0]}"
+      say "Lib folder:".colorize(:blue)+" #{args[2]}"
+      port = Hokkaido::Port.new(args, options)
+    else
+      say "I can't process that."
+    end
   end
+end
 
-  puts "Init Lib: #{ARGV[1]}"
-  puts "Gem name: #{ARGV[0]}"
-  puts "Lib folder: #{ARGV[2]}"
-  
-  port = Hokkaido::Port.new(ARGV)
+command :test do |c|
+  c.syntax = "Usage: Hokkaido test <init_file>"
+  c.description = 'Attempts to test the gem with a mocked RubyMotion.'
+  c.action do |args, options|
+    if args[0] && File.exists?(args[0])
+      Hokkaido::Port.test(args[0])
+    else
+      say "File not found."
+    end
+  end
+end
 
-  puts "The #require removal was #{port.success? ? 'a' : 'not a'} success."
