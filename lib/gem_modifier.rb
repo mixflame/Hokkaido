@@ -74,7 +74,7 @@ module Hokkaido
       # p @require_libs
 
       # replace file
-      #File.open(init_lib, 'w') {|f| f.write(current_file) } #unless TEST_MODE
+      File.open(init_lib, 'w') {|f| f.write(current_file) } #unless TEST_MODE
 
     end
 
@@ -95,7 +95,7 @@ module Hokkaido
 
       puts @manifest
 
-      #File.open(@init_lib, 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
+      File.open(@init_lib, 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
 
     end
 

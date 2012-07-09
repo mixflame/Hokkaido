@@ -9,6 +9,6 @@ describe Hokkaido::Port do
 
   it "should attempt to port a gem to RubyMotion" do
     port = Hokkaido::Port.new(["gherkin", "gherkin.rb", "gherkin/lib"])
-    #.success?.should be_true
+    port.success?.should be_true
   end
 end

@@ -19,8 +19,9 @@ INCLUDE_STRING = "    app.files << File.expand_path(File.join(File.dirname(__FIL
     end
 
     def success?
+      true_path = File.join(@mod_gem.lib_folder, @mod_gem.init_lib)
       mocklib = File.expand_path('lib/motion_mock.rb')
-      system("/usr/bin/env ruby -r #{mocklib} #{@mod_gem.init_lib}")
+      system("/usr/bin/env ruby -r #{mocklib} #{true_path}")
     end
   end
 
