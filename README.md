@@ -41,6 +41,8 @@ The above may be expanded later.
 
 ## Installation
 
+# This gem has not been published yet, so the instructions below do not work.
+
 Add this line to your application's Gemfile:
 
     gem 'Hokkaido'
@@ -55,13 +57,17 @@ Or install it yourself as:
 
 ## Usage
 
-`[bundle exec] Hokkaido <gem_name> <init_file> <lib_folder>`
+Porting: `[bundle exec] Hokkaido port <gem_name> <init_file> <lib_folder>`
+Testing: `[bundle exec] Hokkaido test <gem_name> <init_file> <lib_folder>`
 
-## Examples
+Note, `init_file` is looked for within `lib_folder`
 
-Hokkaido term ansicolor.rb term/lib
-Hokkaido cucumber cucumber.rb cucumber/lib
-Hokkaido gherkin gherkin.rb gherkin/lib
+## Example
+
+Hokkaido port gherkin gherkin.rb gherkin-test/lib
+Hokkaido port term ansicolor.rb term/lib
+Hokkaido port cucumber cucumber.rb cucumber/lib
+Hokkaido port gherkin gherkin.rb gherkin/lib
 
 ## Contributing
 

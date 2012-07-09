@@ -1,6 +1,12 @@
 require 'rubygems'
 require 'pry'
 
+# module Kernel
+#   def eval(foo)
+#     raise "RubyMotion can't #eval"
+#   end
+# end
+
 module Motion
   FILES = []
   module Project

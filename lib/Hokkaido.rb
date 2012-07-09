@@ -36,4 +36,12 @@ module Hokkaido
       puts "The #require removal has failed.".colorize(:red)
     end
   end
+
+  def self.valid_input?(args)
+    if args.length == 3 && args[0].length > 0
+      name, init_filename, lib_dir = args
+      init_path = File.join(lib_dir, init_filename)
+      File.directory?(lib_dir) && File.exists?(init_path)
+    end
+  end
 end
