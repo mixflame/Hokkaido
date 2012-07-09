@@ -39,22 +39,6 @@ Where impossible or strange, A `FIXME` is produced. (not desirable but useful)
 
 The above may be expanded later.
 
-## Installation
-
-# This gem has not been published yet, so the instructions below do not work.
-
-Add this line to your application's Gemfile:
-
-    gem 'Hokkaido'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install Hokkaido
-
 ## Usage
 
 Porting: `[bundle exec] Hokkaido port <gem_name> <init_file> <lib_folder>`
