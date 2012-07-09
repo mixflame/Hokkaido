@@ -1,14 +1,19 @@
 require 'spec_helper'
 
-
-
 describe Hokkaido::Port do
-  it "is a factory" do
-    Hokkaido::Port.should respond_to(:new)
+  before do
+    File.directory?("gherkin").should be_true
+    FileUtils.cp_r "gherkin", "gherkin-spec"
+    @info = ["gherkin-spec", "gherkin.rb", "gherkin-spec/lib"]
+  end
+  
+  it "should pass self test" do
+    port = Hokkaido::Port.new(@info)
+    port.modify
+    port.test.should be_true
   end
 
-  it "should attempt to port a gem to RubyMotion" do
-    port = Hokkaido::Port.new(["gherkin", "gherkin.rb", "gherkin/lib"])
-    port.test.should be_true
+  after do
+    FileUtils.rmtree 'gherkin-spec'
   end
 end

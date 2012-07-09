@@ -1,9 +1,6 @@
 require "Hokkaido/version"
 require 'gem_modifier'
 require 'term/ansicolor'
-require 'pry'
-
-
 
 module Hokkaido
 
@@ -19,26 +16,24 @@ module Hokkaido
 
     def initialize(info, options=nil)
       @mod_gem = GemModifier.new(info)
-      # if options.sim
-      #   @mod_gem.simulate!
-      # else
+    end
+
+    def modify
       @mod_gem.modify!
-      puts "Gem modification complete. It will now be tested.".colorize(:yellow)
-      self.test
-      # end
     end
 
     def test
       true_path = File.join(@mod_gem.lib_folder, @mod_gem.init_lib)
       mocklib = File.expand_path('lib/motion_mock.rb')
-      retval = system("/usr/bin/env ruby -r #{mocklib} #{true_path}")
-      if retval
-        puts "The #require removal was successful.".colorize(:green)
-      else
-        puts "The #require removal has failed.".colorize(:red)
-      end
-      return retval
+      system("/usr/bin/env ruby -r #{mocklib} #{true_path}")
     end
   end
 
+  def self.self_test_result(port)
+    if port.test
+      puts "The #require removal was successful.".colorize(:green)
+    else
+      puts "The #require removal has failed.".colorize(:red)
+    end
+  end
 end

@@ -17,6 +17,9 @@ command :port do |c|
       puts "Gem name:".colorize(:blue)+" #{args[0]}"
       say "Lib folder:".colorize(:blue)+" #{args[2]}"
       port = Hokkaido::Port.new(args, options)
+      port.modify
+      say "Gem modification complete. It will now be tested.".colorize(:yellow)
+      say Hokkaido.self_test_result(port)
     else
       say "I can't process that."
     end
@@ -28,7 +31,7 @@ command :test do |c|
   c.description = 'Attempts to test the gem with a mocked RubyMotion.'
   c.action do |args, options|
     if args[0] && File.exists?(args[0])
-      Hokkaido::Port.test(args[0])
+      say Hokkaido.self_test_result(Hokkaido::Port.new(args, options))
     else
       say "File not found."
     end
