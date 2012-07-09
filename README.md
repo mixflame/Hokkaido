@@ -4,11 +4,38 @@ Hokkaido attempts to do as much of the work of porting a Gem to RubyMotion for y
 
 Currently, it only supports one patching operation.
 
-* Refold `Requires` into RubyMotion Project Manifest.
+* Refold `Requires` into RubyMotion Project Manifest automatically!
 
-## WARNING: Hokkaido is a work in progress and will fail self-test due to incorrect load order. see recursive method parse_gem in gem_modifier.rb
+Now working. New load order math!
 
-Where impossible or strange, A `FIXME` is produced.
+for example, in gherkin/lib/gherkin.rb:
+
+# require 'gherkin/lexer/i18n_lexer'
+# require 'gherkin/parser/parser'
+Motion::Project::App.setup do |app|
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/native/null.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/native.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/hashable.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/model.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/rubify.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/ansi_escapes.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/step_printer.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/argument.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/escaping.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/pretty_formatter.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/c_lexer.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/rb_lexer.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/js_lexer.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/i18n.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/lexer/i18n_lexer.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/listener/formatter_listener.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/parser/parser.rb'))
+    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin.rb'))
+end
+
+Where impossible or strange, A `FIXME` is produced. (not desirable but useful)
+
+The above may be expanded later.
 
 ## Installation
 
@@ -30,9 +57,9 @@ Or install it yourself as:
 
 ## Examples
 
-Hokkaido term term/lib/term/ansicolor.rb term/lib
-Hokkaido cucumber cucumber/lib/cucumber.rb cucumber/lib
-Hokkaido gherkin gherkin/lib/gherkin.rb gherkin/lib
+Hokkaido term ansicolor.rb term/lib
+Hokkaido cucumber cucumber.rb cucumber/lib
+Hokkaido gherkin gherkin.rb gherkin/lib
 
 ## Contributing
 
