@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'commander/import'
 require 'Hokkaido'
 puts "Hokkaido v#{Hokkaido::VERSION} codename Northern Sea Circuit".colorize(:yellow)
 
