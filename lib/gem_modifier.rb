@@ -46,6 +46,7 @@ module Hokkaido
 
           require_type = sexp[3][1][0]
           library = sexp[3][1][1]
+          #p library
 
           if require_type == :str && library.match(@gem_name)
             # fold in
@@ -77,7 +78,11 @@ module Hokkaido
 
     def write_manifest
 
+      #puts @require_libs
+
       @manifest_files = @require_libs.collect do |lib|
+
+        lib = lib.gsub("#{@lib_folder}/", "")
 
         INCLUDE_STRING.gsub("RELATIVE_LIBRARY_PATH", lib)
 
@@ -86,7 +91,7 @@ module Hokkaido
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @manifest_files.join("\n"))
 
-      puts @manifest
+      # puts @manifest
 
       File.open(File.join(@lib_folder, @init_lib), 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
 
