@@ -10,7 +10,7 @@ Now working. New load order math!
 
 for example, in gherkin/lib/gherkin.rb:
 
-# require 'gherkin/lexer/i18n_lexer'
+`# require 'gherkin/lexer/i18n_lexer'
 # require 'gherkin/parser/parser'
 Motion::Project::App.setup do |app|
     app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/native/null.rb'))
@@ -31,7 +31,7 @@ Motion::Project::App.setup do |app|
     app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/listener/formatter_listener.rb'))
     app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/parser/parser.rb'))
     app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin.rb'))
-end
+end`
 
 Where impossible or strange, A `FIXME` is produced. (not desirable but useful)
 
