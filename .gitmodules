@@ -1,0 +1,6 @@
+[submodule "cucumber"]
+	path = cucumber
+	url = git@github.com:jsilverMDX/cucumber.git
+[submodule "gherkin"]
+	path = gherkin
+	url = git@github.com:jsilverMDX/gherkin.git
