@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Jonathan Silverman", "Keyvan Fatehi"]
   gem.email         = ["jsilver@mdks.org", "keyvan@mdks.org"]
   gem.description   = %q{Automates as much as possible in assistance with porting of gems to RubyMotion}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.summary       = %q{Automates as much as possible in assistance with porting of gems to RubyMotion}
   gem.homepage      = "https://github.com/jsilverMDX/Hokkaido"
 
   gem.files         = `git ls-files`.split($\)
