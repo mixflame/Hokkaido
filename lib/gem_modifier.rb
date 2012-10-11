@@ -4,6 +4,23 @@ require 'tempfile'
 
 # require removal only
 
+class File
+  def self.prepend(path, string)
+    Tempfile.open File.basename(path) do |tempfile|
+      # shift string to tempfile
+      tempfile << string
+
+      File.open(path, 'r+') do |file|
+        # append original data to tempfile
+        tempfile << file.read
+        # reset file positions
+        file.pos = tempfile.pos = 0
+        # copy tempfile back to original file
+        file << tempfile.read
+      end
+    end
+  end
+end
 
 
 module Hokkaido
@@ -65,6 +82,11 @@ module Hokkaido
           # comment it out
           current_file += "# #{line}"
           next
+        elsif line.strip =~ /^eval/
+          # comment it out
+          current_file += "# Module#eval is disabled in motion"
+          current_file += "# #{line}"
+          next
         end
 
         # dont intefere
@@ -91,12 +113,7 @@ module Hokkaido
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @manifest_files.join("\n"))
 
-      # lines
-      @manifest = "\n\n\n\n#{@manifest}"
-
-      # puts @manifest
-
-      File.open(File.join(@lib_folder, @init_lib), 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
+      File.prepend(File.join(@lib_folder, @init_lib), @manifest)
 
     end
 

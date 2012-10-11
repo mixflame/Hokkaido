@@ -4,13 +4,13 @@ require 'term/ansicolor'
 
 module Hokkaido
 
-  RUBYMOTION_GEM_CONFIG = <<-HEREDOC
-  Motion::Project::App.setup do |app|
-    MAIN_CONFIG_FILES
-  end
-  HEREDOC
+RUBYMOTION_GEM_CONFIG = <<-HEREDOC
+Motion::Project::App.setup do |app|
+MAIN_CONFIG_FILES
+end
+HEREDOC
 
-  INCLUDE_STRING = "    app.files << File.expand_path(File.join(File.dirname(__FILE__),'RELATIVE_LIBRARY_PATH'))"
+  INCLUDE_STRING = "  app.files << File.expand_path(File.join(File.dirname(__FILE__),'RELATIVE_LIBRARY_PATH'))"
 
   class Port
 
