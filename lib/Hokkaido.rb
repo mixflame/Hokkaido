@@ -35,9 +35,9 @@ HEREDOC
 
   def self.self_test_result(port)
     if port.test
-      puts "The #require removal was successful.".green #.colorize(:green)
+      puts "The #require removal was successful." #.colorize(:green)
     else
-      puts "The #require removal has failed.".red #.colorize(:red)
+      puts "The #require removal has failed." #.colorize(:red)
     end
   end
 
