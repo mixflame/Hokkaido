@@ -1,6 +1,6 @@
 require "Hokkaido/version"
 require 'gem_modifier'
-#require 'term/ansicolor'
+require 'term/ansicolor'
 
 module Hokkaido
 
