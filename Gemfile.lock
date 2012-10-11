@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    Hokkaido (0.0.5)
+    Hokkaido (0.0.7)
       commander
       ruby_parser
 

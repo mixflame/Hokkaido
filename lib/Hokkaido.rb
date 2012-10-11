@@ -1,6 +1,6 @@
 require "Hokkaido/version"
 require 'gem_modifier'
-require 'term/ansicolor'
+#require 'term/ansicolor'
 
 module Hokkaido
 
@@ -35,9 +35,9 @@ HEREDOC
 
   def self.self_test_result(port)
     if port.test
-      puts "The #require removal was successful.".colorize(:green)
+      puts "The #require removal was successful.".green #.colorize(:green)
     else
-      puts "The #require removal has failed.".colorize(:red)
+      puts "The #require removal has failed.".red #.colorize(:red)
     end
   end
 
