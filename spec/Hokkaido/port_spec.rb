@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Hokkaido::Port do
   before do
-    File.directory?("gherkin").should be_true
-    FileUtils.cp_r "gherkin", "gherkin-spec"
-    @info = ["gherkin-spec", "gherkin.rb", "gherkin-spec/lib"]
+    File.directory?("chronic").should be_true
+    FileUtils.cp_r "chronic", "chronic-spec"
+    @info = ["chronic-spec", "chronic.rb", "chronic-spec/lib"]
   end
   
   it "should pass self test" do
@@ -14,6 +14,6 @@ describe Hokkaido::Port do
   end
 
   after do
-    FileUtils.rmtree 'gherkin-spec'
+    FileUtils.rmtree 'chronic-spec'
   end
 end

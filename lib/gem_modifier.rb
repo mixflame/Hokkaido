@@ -91,6 +91,9 @@ module Hokkaido
       # creates config manifest
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @manifest_files.join("\n"))
 
+      # lines
+      @manifest = "\n\n\n\n#{@manifest}"
+
       # puts @manifest
 
       File.open(File.join(@lib_folder, @init_lib), 'a') {|f| f.puts(@manifest) } #unless TEST_MODE
