@@ -13,9 +13,9 @@ command :port do |c|
   c.option '--sim', TrueClass, 'Does not edit the gem files. Good for hacking Hokkaido'
   c.action do |args, options|
     if Hokkaido.valid_input?(args)
-      puts "Init Lib:".colorize(:blue)+" #{args[1]}"
-      puts "Gem name:".colorize(:blue)+" #{args[0]}"
-      say "Lib folder:".colorize(:blue)+" #{args[2]}"
+      puts "Init Lib: #{args[1]}"
+      puts "Gem name: #{args[0]}"
+      say "Lib folder: #{args[2]}"
       port = Hokkaido::Port.new(args, options)
       port.modify
       say "Gem modification complete. It will now be tested." #.colorize(:yellow)
