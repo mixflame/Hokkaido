@@ -1,6 +1,6 @@
 require "Hokkaido/version"
 require 'gem_modifier'
-require 'term/ansicolor'
+#require 'term/ansicolor'
 
 module Hokkaido
 
@@ -16,6 +16,7 @@ HEREDOC
 
     def initialize(info, options=nil)
       @mod_gem = GemModifier.new(info)
+      @true_path = File.join(@mod_gem.lib_folder, @mod_gem.init_lib)
     end
 
     def modify
@@ -23,9 +24,12 @@ HEREDOC
     end
 
     def test
-      true_path = File.join(@mod_gem.lib_folder, @mod_gem.init_lib)
       mocklib = File.expand_path('lib/motion_mock.rb')
-      system("/usr/bin/env ruby -r #{mocklib} #{true_path}")
+      system("/usr/bin/env ruby -r #{mocklib} #{@true_path}")
+    end
+
+    def produced_eval_fixme
+      File.read(@true_path).include?("FIXME: #eval")
     end
   end
 

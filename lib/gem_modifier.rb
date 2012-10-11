@@ -84,7 +84,7 @@ module Hokkaido
           next
         elsif line.strip =~ /^eval/
           # comment it out
-          current_file += "# Module#eval is disabled in motion"
+          current_file += "# FIXME: #eval is not available in motion\n"
           current_file += "# #{line}"
           next
         end

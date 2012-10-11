@@ -1,3 +1,6 @@
+Motion::Project::App.setup do |app|
+  app.files << File.expand_path(File.join(File.dirname(__FILE__),'ansicolor.rb'))
+end
 module Hokkaido
   module Term
     # The ANSIColor module can be used for namespacing and mixed into your own
@@ -53,7 +56,7 @@ module Hokkaido
       self.coloring = true
 
       ATTRIBUTES.each do |c, v|
-        eval %Q{
+# Module#eval is disabled in motion#         eval %Q{
             def #{c}(string = nil)
               result = ''
               result << "\e[#{v}m" if Hokkaido::Term::ANSIColor.coloring?
