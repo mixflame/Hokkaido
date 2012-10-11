@@ -4,7 +4,7 @@ require 'Hokkaido'
 puts "Hokkaido v#{Hokkaido::VERSION} codename Northern Sea Circuit" #.colorize(:yellow)
 
 program :name, "Hokkaido"
-program :version, '0.0.1'
+program :version, '0.1.1'
 program :description, 'Gem port tool for RubyMotion'
 
 command :port do |c|
@@ -18,8 +18,8 @@ command :port do |c|
       say "Lib folder: #{args[2]}"
       port = Hokkaido::Port.new(args, options)
       port.modify
-      say "Gem modification complete. It will now be tested." #.colorize(:yellow)
-      say Hokkaido.self_test_result(port)
+      #say "Gem modification complete. It will now be tested." #.colorize(:yellow)
+      #say Hokkaido.self_test_result(port)
     else
       say "I can't process that."
     end

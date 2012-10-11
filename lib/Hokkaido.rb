@@ -25,6 +25,7 @@ HEREDOC
 
     def test
       mocklib = File.expand_path('lib/motion_mock.rb')
+      puts mocklib
       system("/usr/bin/env ruby -r #{mocklib} #{@true_path}")
     end
 
