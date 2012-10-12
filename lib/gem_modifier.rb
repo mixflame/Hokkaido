@@ -4,7 +4,15 @@ require 'tempfile'
 
 require 'pry'
 
-# require removal only
+# remove #require
+# remove #autoload
+# generate and add manifest to front of file
+# add version.rb and config.rb files
+
+# convert eval to module, instance or class eval
+# eval def to define method
+
+# #binding not support
 
 class File
   def self.prepend(path, string)
@@ -110,12 +118,32 @@ module Hokkaido
           current_file += "# #{line}"
           next
 
-          #binding.pry
+        
         elsif line.strip =~ /^eval/
-          # comment it out
-          current_file += "# FIXME: #eval is not available in motion\n"
-          current_file += "# #{line}"
-          next
+            # reprint as a block
+            # parser = RubyParser.new
+            # sexp = parser.parse(line)
+            # code_str = sexp[3][1][1]
+            # new_eval = "eval do\n  #{code_str}\nend\n"
+            # current_file += "#{new_eval}"
+            # next
+
+            # produce a fixme
+
+            current_file += "# FIXME: Cannot eval strings in RubyMotion. \n"
+            current_file += "# Rewrite to use a block.. inbuilt hack will run \n"
+            current_file += "# Change this: \n"
+            current_file += "# eval %Q{ \n" 
+            current_file += '# def #{c}(string = nil) ' + "\n"
+            current_file += "# To this \n"
+            current_file += "# eval do \n"
+            current_file += "# define_method(c) do |string| \n"
+            current_file += "#{line}"
+            next
+        elsif line.strip =~ /^binding/
+            current_file += "# FIXME: binding is not supported in RubyMotion.\n"
+            current_file += "#{line}"
+            next
         end
 
         # dont intefere
@@ -143,6 +171,8 @@ module Hokkaido
       @manifest = RUBYMOTION_GEM_CONFIG.gsub("MAIN_CONFIG_FILES", @manifest_files.join("\n"))
 
       File.prepend(File.join(@lib_folder, @init_lib), @manifest)
+
+      File.prepend(File.join(@lib_folder, @init_lib), EVAL_HACK)
 
     end
 

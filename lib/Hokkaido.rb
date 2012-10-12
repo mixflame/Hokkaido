@@ -10,6 +10,18 @@ MAIN_CONFIG_FILES
 end
 HEREDOC
 
+EVAL_HACK = <<-HEREDOC
+def eval(&block)
+  if self.is_a?(Class)
+    class_eval(&block)
+  elsif self.is_a?(Module)
+    module_eval(&block)
+  elsif self.is_a?(Object)
+    instance_eval(&block)
+  end
+end
+HEREDOC
+
   INCLUDE_STRING = "  app.files << File.expand_path(File.join(File.dirname(__FILE__),'RELATIVE_LIBRARY_PATH'))"
 
   class Port
@@ -29,7 +41,7 @@ HEREDOC
     end
 
     def produced_eval_fixme
-      File.read(@true_path).include?("FIXME: #eval")
+      File.read(@true_path).include?("FIXME: ")
     end
   end
 

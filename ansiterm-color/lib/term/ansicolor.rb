@@ -53,6 +53,8 @@ module Term
     end
     self.coloring = true
 
+    eval("puts 'hi'")
+
     ATTRIBUTES.each do |c, v|
       eval %Q{
           def #{c}(string = nil)
