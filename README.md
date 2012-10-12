@@ -5,39 +5,24 @@ Hokkaido attempts to do as much of the work of porting a Gem to RubyMotion for y
 Currently, it only supports one patching operation.
 
 * Refold `Requires` into RubyMotion Project Manifest automatically!
+* Refold Autoload (same as require)
+* Generate and add manifest with proper load order to front of file
+* Adds an eval hack to make evaling blocks work in the scope of the binding (no strings)
+* FIXME's around binding and calls to eval()
 
-Now working. New load order math!
+Supported meta-programming techniques left alone, intact and working (instance_eval, define_method, etc).
 
-for example, in gherkin/lib/gherkin.rb:
+Includes disabled code to instantly change eval with string to eval with block. Enable if you need it.
 
-```ruby
-# require 'gherkin/lexer/i18n_lexer'
-# require 'gherkin/parser/parser'
-Motion::Project::App.setup do |app|
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/native/null.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/native.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/hashable.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/model.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/rubify.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/ansi_escapes.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/step_printer.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/argument.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/escaping.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/formatter/pretty_formatter.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/c_lexer.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/rb_lexer.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/js_lexer.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/i18n.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/lexer/i18n_lexer.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/listener/formatter_listener.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin/parser/parser.rb'))
-    app.files << File.expand_path(File.join(File.dirname(__FILE__),'gherkin.rb'))
+e.g.
+
+eval("puts 'hi'")
+
+to
+
+eval do
+  puts 'hi'
 end
-```
-
-Where impossible or strange, A `FIXME` is produced. (not desirable but useful)
-
-The above may be expanded later.
 
 ## Usage
 
